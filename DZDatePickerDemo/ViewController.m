@@ -11,13 +11,15 @@
 
 @interface ViewController ()
 
+@property (nonatomic,strong)NSDate *dateA;
+@property (nonatomic,strong)NSDate *dateB;
+
 @end
 
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
     self.view.backgroundColor = [UIColor whiteColor];
     UIButton *btnA = [UIButton buttonWithType:UIButtonTypeCustom];
     [btnA setTitle:@"00:00 ~ 23:59" forState:UIControlStateNormal];
@@ -32,13 +34,14 @@
     btnB.frame = CGRectMake((self.view.bounds.size.width - 180) / 2, 200, 180, 40);
     [self.view addSubview:btnB];
     [btnB addTarget:self action:@selector(btnBClicked:) forControlEvents:UIControlEventTouchUpInside];
-    
 }
 
 - (void)btnAClicked:(UIButton *)sender {
     DZDatePickerView *picker = [[DZDatePickerView alloc] init];
+    picker.clickBackViewToHide = YES;
     picker.title = @"00:00 ~ 23:59";
-    [picker showInView:nil startDate:[NSDate date] endDate:[[NSDate date] dateByAddingTimeInterval:60 * 60 * 24 * 5] initialDate:[[NSDate date] dateByAddingTimeInterval:60 * 60 * 24 * 2] minutesDelta:15 confirm:^(NSDate *date) {
+    [picker showInView:nil startDate:[NSDate date] endDate:[[NSDate date] dateByAddingTimeInterval:60 * 60 * 24 * 5] initialDate:self.dateA minutesDelta:15 confirm:^(NSDate *date) {
+        self.dateA = date;
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm"];
         NSString *timeStr = [dateFormatter stringFromDate:date];
@@ -50,7 +53,8 @@
 - (void)btnBClicked:(UIButton *)sender {
     DZDatePickerView *picker = [[DZDatePickerView alloc] init];
     picker.title = @"08:30 ~ 22:00";
-    [picker showInView:nil startDate:[NSDate date] endDate:[[NSDate date] dateByAddingTimeInterval:60 * 60 * 24 * 5]  initialDate:[[NSDate date] dateByAddingTimeInterval:60 * 60 * 24 * 2] minutesDelta:15 earliestTime:@"08:30" latestTime:@"22:00" confirm:^(NSDate *date) {
+    [picker showInView:nil startDate:[NSDate date] endDate:[[NSDate date] dateByAddingTimeInterval:60 * 60 * 24 * 5]  initialDate:self.dateB minutesDelta:15 earliestTime:@"08:30" latestTime:@"22:00" confirm:^(NSDate *date) {
+        self.dateB = date;
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm"];
         NSString *timeStr = [dateFormatter stringFromDate:date];

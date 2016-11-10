@@ -20,15 +20,7 @@
     }
 }
 
-- (id)dz_objectAtIndex:(NSUInteger)index{
-    if (index <self.count) {
-        return self[index];
-    }else{
-        return nil;
-    }
-}
 @end
-
 
 @interface NSArray (DZPicker)
 @end
@@ -44,20 +36,17 @@
 
 @end
 
-
+typedef void (^DZPickerViewFinishedBlock) ();
 static CGFloat const kDZDatePickerHeight = 252.0; /**< 整个picker的高度 */
 static CGFloat const kDZDatePickerButtonWidth = 60.0; /**< 按钮的高度 */
-static CGFloat const kDZDatePickerTopBarHeight = 60.0; /**< 按钮的宽度 */
-
-typedef void (^DZPickerViewFinishedBlock) ();
-
-#define kDZ_DATEPICKER_SCREEN_WIDTH        ([UIScreen mainScreen].bounds.size.width)
-#define kDZ_DATEPICKER_SINGLE_LINE_WIDTH   (1/[UIScreen mainScreen].scale)
-
+static CGFloat const kDZDatePickerTopBarHeight = 60.0; /**< topBar的宽度 */
 static CGFloat const kDZDatePickerBackAlpha = 0.3; /**<背景透明度 */
 static CGFloat const kDZDatePickerAnimationDuration = 0.3;/**< 动画持续时间 */
 
-@interface DZDatePickerView ()
+#define kDZ_DATEPICKER_SCREEN_WIDTH        ([UIScreen mainScreen].bounds.size.width)
+#define kDZ_DATEPICKER_SINGLE_LINE_WIDTH   (1 / [UIScreen mainScreen].scale)
+
+@interface DZDatePickerView ()<UIPickerViewDataSource, UIPickerViewDelegate>
 
 @property (nonatomic,copy) DZDatePickerConfirmBlock confirmBlock;
 @property (nonatomic,copy) DZDatePickerCancelBlock  cancelBlock;
@@ -84,24 +73,21 @@ static CGFloat const kDZDatePickerAnimationDuration = 0.3;/**< 动画持续时�
 @property (nonatomic,strong) NSArray    *minutes_startHour;/**< 存储开始分钟数据的数组 */
 @property (nonatomic,strong) NSArray    *minutes_endHour;/**< 存储结束分钟数据的数组 */
 
-@property (nonatomic,strong) UIView *contentView;
-@property (nonatomic,strong) UIView  *backView;
-@property (nonatomic,assign) CGRect  frameBeforeAnimation;
-@property (nonatomic,assign) CGRect  frameOriginal;
-@property (nonatomic,assign) CGSize  contentSize;
+@property (nonatomic,strong) UIView     *contentView;
+@property (nonatomic,strong) UIView     *backView;
+@property (nonatomic,assign) CGRect     frameBeforeAnimation;
+@property (nonatomic,assign) CGRect     frameOriginal;
+@property (nonatomic,assign) CGSize     contentSize;
 
 @property (nonatomic,strong) UIButton     *btnOK;
 @property (nonatomic,strong) UIButton     *btnCancel;
 @property (nonatomic,strong) UIPickerView *datePicker;
 @property (nonatomic,strong) UILabel      *lblTitle;
-@property (nonatomic,strong) UIView *separateLine;
-
+@property (nonatomic,strong) UIView       *separateLine;
 
 @end
 
-
 @implementation DZDatePickerView
-
 
 #pragma mark - init & dealloc
 
@@ -127,7 +113,6 @@ static CGFloat const kDZDatePickerAnimationDuration = 0.3;/**< 动画持续时�
         [self.contentView addSubview:self.datePicker];
         [self.contentView addSubview:self.lblTitle];
         [self.contentView addSubview:self.separateLine];
-        self.contentView.backgroundColor = [UIColor whiteColor];
     }
     return self;
 }
@@ -275,8 +260,7 @@ static CGFloat const kDZDatePickerAnimationDuration = 0.3;/**< 动画持续时�
     if ([newDate isLaterThanDate:self.endDate] || [newDate isEarlierThanDate:self.startDate]) {
         return;
     }
-    
-    self.selectedDate = newDate;
+
     NSInteger dayIndex = 0;
     NSInteger hourIndex = 0;
     NSInteger minuteIndex = 0;
@@ -315,7 +299,6 @@ static CGFloat const kDZDatePickerAnimationDuration = 0.3;/**< 动画持续时�
 }
 
 - (NSDate *)selectedDate {
-    
     NSInteger dayIndex = [_datePicker selectedRowInComponent:0];
     NSInteger hourIndex = [_datePicker selectedRowInComponent:1];
     NSInteger minuteIndex = [_datePicker selectedRowInComponent:2];
@@ -754,7 +737,7 @@ static CGFloat const kDZDatePickerAnimationDuration = 0.3;/**< 动画持续时�
     }
 }
 
-- (void)btnCancelClicked{
+- (void)cancel{
     [self dismissViewFinished:^{
         if (self.cancelBlock) {
             self.cancelBlock();
@@ -770,21 +753,31 @@ static CGFloat const kDZDatePickerAnimationDuration = 0.3;/**< 动画持续时�
     }];
 }
 
+- (void)backViewTapped{
+    if (self.clickBackViewToHide) {
+        [self cancel];
+    }
+}
+
 #pragma mark - lazy load
 
 - (UIView *)contentView {
     if (!_contentView) {
         _contentView = [[UIView alloc] init];
+        _contentView.backgroundColor = [UIColor whiteColor];
         _contentView.layer.masksToBounds = YES;
     }
     return _contentView;
 }
+
 - (UIView *)backView {
     if (!_backView) {
         _backView = [[UIView alloc] init];
         _backView.backgroundColor = [UIColor blackColor];
         _backView.alpha = 0;
         _backView.layer.masksToBounds = YES;
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backViewTapped)];
+        [_backView addGestureRecognizer:tap];
     }
     return _backView;
 }
@@ -796,7 +789,7 @@ static CGFloat const kDZDatePickerAnimationDuration = 0.3;/**< 动画持续时�
         [_btnCancel setTitle:@"Cancel" forState:UIControlStateNormal];
         [_btnCancel setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         _btnCancel.titleLabel.font = [UIFont systemFontOfSize:14];
-        [_btnCancel addTarget:self action:@selector(btnCancelClicked) forControlEvents:UIControlEventTouchUpInside];
+        [_btnCancel addTarget:self action:@selector(cancel) forControlEvents:UIControlEventTouchUpInside];
     }
     return _btnCancel;
 }

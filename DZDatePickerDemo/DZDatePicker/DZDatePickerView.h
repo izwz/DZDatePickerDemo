@@ -12,17 +12,13 @@
 typedef void (^DZDatePickerConfirmBlock) (NSDate *date);
 typedef void (^DZDatePickerCancelBlock) ();
 
-@interface DZDatePickerView : UIView <UIPickerViewDataSource, UIPickerViewDelegate>
+@interface DZDatePickerView : UIView 
 
-/**
- *  当前选择的时间
- */
-@property (nonatomic, strong) NSDate   *selectedDate;
+@property (nonatomic,strong,readonly) NSDate   *selectedDate;/**< 当前选择的时间*/
 
-/**
- *  title
- */
-@property (nonatomic, strong) NSString *title;
+@property (nonatomic,strong) NSString   *title;/**< title*/
+
+@property (nonatomic,assign) BOOL       clickBackViewToHide;/**< 点击背景隐藏 默认为NO*/
 
 /**
  *  弹出 DatePickerView
