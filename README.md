@@ -1,4 +1,4 @@
-DZDatePicker
+DZDatePickerView
 ===
 #简介(summary)
 DZDatePickerView是一个时间选择器，可以设定开始时间，结束时间，初始化时间，时间颗粒度，以及每天的时间限制（比如08:00至22:00）
