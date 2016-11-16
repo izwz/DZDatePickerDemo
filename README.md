@@ -1,13 +1,15 @@
 DZDatePicker
 ===
-#简介
+#简介(summary)
 DZDatePickerView是一个时间选择器，可以设定开始时间，结束时间，初始化时间，时间颗粒度，以及每天的时间限制（比如08:00至22:00）
 
-#GIF示例和屏幕截图
+Author:`zwz` E-mail:`zwz293299@gmail.com`
+
+#GIF示例和屏幕截图(screenShot)
 ![example](https://github.com/zwz293299/DZDatePickerDemo/blob/master/example.gif)
 ![screenShot](https://github.com/zwz293299/DZDatePickerDemo/blob/master/ScreenShot.png)
 
-#1
+#1 code
 ``` java
 /**
 *  弹出 DatePickerView
