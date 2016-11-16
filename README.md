@@ -10,7 +10,7 @@ Author:`zwz` E-mail:`zwz293299@gmail.com`
 ![screenShot](https://github.com/zwz293299/DZDatePickerDemo/blob/master/ScreenShot.png)
 
 #1 code
-``` java
+``` Objective-C
 /**
  *  弹出 DatePickerView
  *  @param superView              superView 传nil则默认显示在当前 window
@@ -37,7 +37,7 @@ Author:`zwz` E-mail:`zwz293299@gmail.com`
 
 #使用 (how to use)
 
-``` java
+``` Objective-C
 DZDatePickerView *picker = [[DZDatePickerView alloc] init];
     picker.title = @"08:30 ~ 22:00";
     [picker showInView:nil startDate:[NSDate date] endDate:[[NSDate date] dateByAddingTimeInterval:60 * 60 * 24 * 5]  initialDate:self.dateB minutesDelta:15 earliestTime:@"08:30" latestTime:@"22:00" confirm:^(NSDate *date) {
