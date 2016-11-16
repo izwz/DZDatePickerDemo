@@ -2,6 +2,11 @@
 
 DZDatePickerView是一个时间选择的datePicker，可以设定开始时间，结束时间，初始化时间，时间颗粒度，以及每天的时间限制（比如08:00至22:00）
 
+
+![example](https://github.com/zwz293299/DZDatePickerDemo/blob/master/example.gif)
+![screenShot](https://github.com/zwz293299/DZDatePickerDemo/blob/master/ScreenShot.png)
+
+
 1
 /**
 *  弹出 DatePickerView
