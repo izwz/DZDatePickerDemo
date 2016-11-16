@@ -12,17 +12,17 @@ Author:`zwz` E-mail:`zwz293299@gmail.com`
 #1 code
 ``` java
 /**
-*  弹出 DatePickerView
-*  @param superView              superView 传nil则默认显示在当前 window
-*  @param startDate              起始时间
-*  @param days                   结束时间距离起始时间的天数
-*  @param initialDate            初始化已选时间 传nil的话则默认选中第一行
-*  @param delta                  时间分钟粒度
-*  @param earliestTime           每天的最早时间（格式为“08:30”）不需要的话传nil
-*  @param latestTime             每天的最晚时间（格式为“08:30”）不需要的话传nil
-*  @param datePickerConfirmBlock 回调
-*  @param datePickerCancelBlock 回调
-*/
+ *  弹出 DatePickerView
+ *  @param superView              superView 传nil则默认显示在当前 window
+ *  @param startDate              起始时间
+ *  @param endDate                结束时间
+ *  @param initialDate            初始化已选时间 传nil的话则默认选中第一行
+ *  @param delta                  时间分钟粒度
+ *  @param earliestTime           每天的最早时间（格式为“08:30”）不需要的话传nil
+ *  @param latestTime             每天的最晚时间（格式为“08:30”）不需要的话传nil
+ *  @param datePickerConfirmBlock 回调
+ *  @param datePickerCancelBlock 回调
+ */
 - (void)showInView:(UIView *)superView
          startDate:(NSDate *)startDate
            endDate:(NSDate *)endDate
