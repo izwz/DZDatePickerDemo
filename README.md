@@ -6,6 +6,7 @@ DZDatePickerView是一个时间选择器，可以设定开始时间，结束时�
 Author:`zwz` E-mail:`izwz@outlook.com`
 
 #GIF示例和屏幕截图(screenShot)
+
 ![example](https://github.com/zwz293299/DZDatePickerDemo/blob/master/example.gif)
 ![screenShot](https://github.com/zwz293299/DZDatePickerDemo/blob/master/ScreenShot.png)
 
